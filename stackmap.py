@@ -16,11 +16,9 @@ class StackMap(MutableMapping):
     to create a single, updateable view.
     The underlying mappings are stored in a list.
     That list can be accessed or updated using the *maps* property.
-    There is no other state.
-    Lookups search the underlying mappings successively in reverse order
-    (from the last to the first in the list) until a key is found.
-    In contrast, writes, updates, and deletions only operate on the **last**
-    mapping in *maps*.
+    Lookups search the underlying mappings starting from the last mapping
+    in the *maps* until a key is found.
+    Updates and deletions only operate on the **last** mapping in *maps*.
     """
     def __init__(self, *maps):
         '''Initialize a StackMap by setting *_maps* to the given mappings
@@ -84,24 +82,33 @@ class StackMap(MutableMapping):
 
     __copy__ = copy
 
-    def save(self, m=None):
+    def push(self, m=None, left=False):
         """
-        Append a new map to the previous maps.
+        Append a new map to the the `maps` list.
         If no map is provided, an empty dict is used.
         In-place version of `new` method.
+        If left, append a new map as the first mapping, to the left side of the
+        `maps` list.
         """
         if m is None:
             m = {}
-        self._maps.insert(0, m)
+        if left:
+            self._maps.append(m)
+        else:
+            self._maps.insert(0, m)
 
-    def new(self, m=None):
+    def new(self, m=None, left=False):
         """
         New StackMap with a new map appended to the previous maps.
         If no map is provided, an empty dict is used.
         Like ChainSave new_child() and Django's Context.push()
+        If left, append a new map as the first mapping, to the left side of the
+        `maps` list.
         """
         if m is None:
             m = {}
+        if left:
+            return self.__class__(m, *self.maps)
         return self.__class__(*self.maps, m)
 
     @property
