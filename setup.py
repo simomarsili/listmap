@@ -43,7 +43,7 @@ setup(
     author='Simone Marsili',
     author_email='simo.marsili@gmail.com',
     url='https://github.com/simomarsili/' + DISTNAME,
-    modules=MODULES,
+    py_modules=MODULES,
     # packages=find_packages(exclude=['tests']),
     package_data={'': ['LICENSE.txt', 'README.rst', 'requirements.txt']},
     include_package_data=True,
