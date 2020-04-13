@@ -3,7 +3,46 @@ stackmap
 ========
 
 `StackMap` is a dict-like class that creates a single view from multiple
-mappings, based on the `ChainMap` class in the `collections` module.
+mappings, based on the `ChainMap` class from `collections`.
+The underlying mappings are stored in a list that can be accessed using the
+`maps` property.
+
+Differences with `ChainMap` objects:
+
+* Lookups search the list **from right to left** (starting from the last
+  mapping in the list and going backward) until a key is found
+* Updates and deletions of keys operate on the **last** mapping in the list
+* The `new_child` method is replaced by the `new` method that appends a new
+  mapping to the **right** of the list and returns a new `StackMap` object
+* The `push` method appends a new mapping to the right of the list **inplace**
+
+
+Examples
+========
+
+These examples are adapted from the
+`ChainMap docs
+<https://docs.python.org/3/library/collections.html#collections.ChainMap>`_ to
+show the differences.
+::
+
+   >>> baseline = {'music': 'bach', 'art': 'rembrandt'}
+   >>> adjustments = {'art': 'van gogh', 'opera': 'carmen'}
+   >>> list(ChainMap(adjustments, baseline))
+   ['music', 'art', 'opera']
+
+   >>> list(StackMap(baseline, adjustments))
+   ['music', 'art', 'opera']
+
+The iteration order of a `StackMap` is the same ordering as a series of
+`dict.update()` calls starting from the **first** mapping::
+
+  >>> combined = baseline.copy()
+  >>> combined.update(adjustments)
+  >>> list(combined)
+  ['music', 'art', 'opera']
+
+
 
 Contributing
 ============
