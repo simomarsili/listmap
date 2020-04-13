@@ -34,8 +34,8 @@ show the differences.
    >>> list(StackMap(baseline, adjustments))
    ['music', 'art', 'opera']
 
-The iteration order of a `StackMap` is the same ordering as a series of
-`dict.update()` calls starting from the **first** mapping::
+The iteration order of a ``StackMap`` is the same ordering as a series of
+``dict.update()`` calls starting from the **first** mapping in the list::
 
   >>> combined = baseline.copy()
   >>> combined.update(adjustments)
