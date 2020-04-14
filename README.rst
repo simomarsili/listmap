@@ -6,16 +6,16 @@ stackmap
 mappings, based on the ``ChainMap`` class from ``collections``.  The underlying
 mappings can be accessed using the``maps`` property.
 
-Differences with ``ChainMap`` objects:
+Main differences with ``ChainMap`` objects:
 
 * Lookups search the list **from right to left** (starting from the last
   mapping in the list and going backward) until a key is found
 * Updates and deletions of keys operate on the **last** mapping in the list
-* The ``new_child`` method is replaced by the ``new`` method that appends a new
-  mapping to the **right** of the list and returns a new ``StackMap`` object
-* The ``push`` method appends a new mapping to the right of the list
-  **inplace**
-
+* The ``new_child(m)`` method is replaced by the ``new(m)`` method that
+  appends a new mapping ``m`` to the **right** of the list of mappings and
+  returns a new ``StackMap`` object
+* The ``append(m)`` method appends a new mapping ``m`` to the right of the
+  list
 
 Examples
 ========
