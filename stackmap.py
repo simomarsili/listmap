@@ -102,20 +102,15 @@ class StackMap(MutableMapping):
 
     __copy__ = copy
 
-    def append(self, m=None, left=False):
+    def append(self, m=None):
         """
         Append a new map to the the `maps` list.
         If no map is provided, an empty dict is used.
         In-place version of `new` method.
-        If left, append a new map as the first mapping to the left side of the
-        `maps` list.
         """
         if m is None:
             m = {}
-        if left:
-            self._maps.append(m)
-        else:
-            self._maps.insert(0, m)
+        self._maps.insert(0, m)
 
     def insert(self, index, m):
         """Insert a new map into `maps` before index."""
