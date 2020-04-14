@@ -116,8 +116,8 @@ class StackMap(MutableMapping):
         # insert after -index -1 (before -index)
         self._maps.insert(-index, m)
 
-    def delete(self, index):
-        """Remove the `index`-th map."""
+    def delete(self, index=-1):
+        """Remove the `index`-th map. Default: remove the last mapping."""
         del self._maps[-index - 1]
 
     def new(self, m=None, left=False):
