@@ -33,3 +33,7 @@ def maps():
 
 def test_init(maps):
     assert StackMap(*maps) == ChainMap(*maps[::-1])
+
+
+def test_maps(maps):
+    assert StackMap(*maps).maps == tuple(ChainMap(*maps[::-1]).maps[::-1])

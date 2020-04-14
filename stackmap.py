@@ -3,34 +3,54 @@
 from collections.abc import Mapping, MutableMapping
 from reprlib import recursive_repr
 
-# pylint: disable=too-many-ancestors
-
 # see:
 # https://github.com/python/cpython/blob/f393b2c588559162dc2e77f8079a42e48558870a/Lib/collections/__init__.py
+
+# TODO: docstrings
 
 
 class StackMap(MutableMapping):
     """
-    Adapted from collections.ChainMap.
-    StackMap groups multiple dicts (or other mappings) together
-    to create a single, updateable view.
-    The underlying mappings are stored in a list.
-    That list can be accessed or updated using the *maps* property.
-    Lookups search the underlying mappings starting from the last mapping
-    in the *maps* until a key is found.
-    Updates and deletions only operate on the **last** mapping in *maps*.
+    Adapted from the ChainMap class. As a ChainMap, a StackMap groups multiple
+    dicts (or other mappings) together to create a single, updateable view.
+
+    The underlying mappings can be accessed and updated using using the *maps*
+    tuple attribute.
+
+    Lookups search the underlying mappings successively starting from the
+    **last** mapping and going backward in the ordered mappigs until a key is
+    found. Writes, updates, and deletions only operate on the **last**
+    mapping.
+
+    Main differences with ``ChainMap`` objects:
+
+    * Lookups search the list **from right to left** (starting from the last
+      mapping in the list and going backward) until a key is found
+    * Updates and deletions of keys operate on the **last** mapping in the list
+    * The ``new_child(m)`` method is replaced by the ``new(m)`` method that
+      appends a new mapping ``m`` to the **right** of the list of mappings and
+      returns a new ``StackMap`` object
+    * The ``append(m)`` method appends a new mapping ``m`` to the right of the
+      list
+
+    Minor differences:
+    * The ``insert(index, m)`` method inserts a new mapping ``m`` at index
+      ``index``
+    * The ``delete(index)`` removes the mapping at ``index`` from the mappings.
+
     """
     def __init__(self, *maps):
-        '''Initialize a StackMap by setting *_maps* to the given mappings
+        """
+        Initialize a StackMap by setting *_maps* to the given mappings
         in reversed order. If no mappings are provided,
         a single empty dictionary is used.
-        '''
+        """
         self._maps = list(reversed(maps)) or [{}]  # always at least one map
 
     @property
     def maps(self):
         """Ordered mappings."""
-        return self._maps[::-1]
+        return tuple(self._maps[::-1])
 
     def __missing__(self, key):
         raise KeyError(key)
@@ -82,12 +102,12 @@ class StackMap(MutableMapping):
 
     __copy__ = copy
 
-    def push(self, m=None, left=False):
+    def append(self, m=None, left=False):
         """
         Append a new map to the the `maps` list.
         If no map is provided, an empty dict is used.
         In-place version of `new` method.
-        If left, append a new map as the first mapping, to the left side of the
+        If left, append a new map as the first mapping to the left side of the
         `maps` list.
         """
         if m is None:
@@ -96,6 +116,14 @@ class StackMap(MutableMapping):
             self._maps.append(m)
         else:
             self._maps.insert(0, m)
+
+    def insert(self, index, m):
+        """Insert a new map into `maps` before index."""
+        self._maps.insert(-index - 1, m)
+
+    def delete(self, index):
+        """Remove the `index`-th map."""
+        del self._maps[-index - 1]
 
     def new(self, m=None, left=False):
         """

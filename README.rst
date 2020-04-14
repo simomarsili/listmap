@@ -4,7 +4,7 @@ stackmap
 
 ``StackMap`` is a dict-like class that creates a single view from multiple
 mappings, based on the ``ChainMap`` class from ``collections``.  The underlying
-mappings are stored in a list that can be accessed using the ``maps`` property.
+mappings can be accessed using the``maps`` property.
 
 Differences with ``ChainMap`` objects:
 
