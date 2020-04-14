@@ -3,11 +3,6 @@
 from collections.abc import Mapping, MutableMapping
 from reprlib import recursive_repr
 
-# see:
-# https://github.com/python/cpython/blob/f393b2c588559162dc2e77f8079a42e48558870a/Lib/collections/__init__.py
-
-# TODO: docstrings
-
 
 class StackMap(MutableMapping):
     """
@@ -37,6 +32,10 @@ class StackMap(MutableMapping):
     * The ``insert(index, m)`` method inserts a new mapping ``m`` at index
       ``index``
     * The ``delete(index)`` removes the mapping at ``index`` from the mappings.
+
+    Notes
+    -----
+    https://github.com/python/cpython/blob/3.8/Lib/collections/__init__.py
 
     """
     def __init__(self, *maps):
