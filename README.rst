@@ -3,12 +3,13 @@ stackmap
 ========
 
 ``StackMap`` is a dict-like class that creates a single view from multiple
-mappings, based on the ``ChainMap`` class from ``collections``.  The underlying
-mappings can be accessed using the``maps`` property.
+mappings, based on the ``ChainMap`` class from ``collections``. The underlying
+list of mappings can be accessed using the``maps`` property, and modified using
+the class methods: ``append``, ``insert``, ``delete``.
 
 Main differences with ``ChainMap`` objects:
 
-* Lookups search the list **from right to left** (starting from the last
+* Lookups search the mappings **from right to left** (starting from the last
   mapping in the list and going backward) until a key is found
 * Updates and deletions of keys operate on the **last** mapping in the list
 * The ``new_child(m)`` method is replaced by the ``new(m)`` method that

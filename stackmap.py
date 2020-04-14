@@ -14,8 +14,8 @@ class StackMap(MutableMapping):
     Adapted from the ChainMap class. As a ChainMap, a StackMap groups multiple
     dicts (or other mappings) together to create a single, updateable view.
 
-    The underlying mappings can be accessed and updated using using the *maps*
-    tuple attribute.
+    The underlying list of mappings can be accessed using the``maps`` property,
+    and modified using the class methods: ``append``, ``insert``, ``delete``.
 
     Lookups search the underlying mappings successively starting from the
     **last** mapping and going backward in the ordered mappigs until a key is
