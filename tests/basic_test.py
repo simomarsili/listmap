@@ -64,3 +64,33 @@ def test_new(maps):
 
 def test_clear(maps):
     assert StackMap(*maps).clear() == ChainMap(*maps[::-1]).clear()
+
+
+def test_extend(maps):
+    sm = StackMap(*maps)
+    sm.extend(maps)
+    assert sm == StackMap(*maps, *maps)
+
+
+def test_add_map(maps):
+    m = {1: 100}
+    sm = StackMap(*maps)
+    assert sm + m == StackMap(*maps, m)
+
+
+def test_add_stackmap(maps):
+    sm = StackMap(*maps)
+    assert sm + StackMap(*maps) == StackMap(*maps, *maps)
+
+
+def test_iadd_map(maps):
+    m = {1: 100}
+    sm = StackMap(*maps)
+    sm += m
+    assert sm == StackMap(*maps, m)
+
+
+def test_iadd_stackmap(maps):
+    sm = StackMap(*maps)
+    sm += StackMap(*maps)
+    assert sm == StackMap(*maps, *maps)

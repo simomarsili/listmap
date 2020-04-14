@@ -196,3 +196,26 @@ class StackMap(MutableMapping):
                 m.update(child)
             return self.__class__(m)
         return NotImplemented
+
+    def __add__(self, other):
+        if isinstance(other, Mapping):
+            if isinstance(other, self.__class__):
+                return self.__class__(*self.maps, *other.maps)
+            return self.__class__(*self.maps, other)
+        return NotImplemented
+
+    def __iadd__(self, other):
+        if isinstance(other, Mapping):
+            if isinstance(other, self.__class__):
+                self.extend(other)
+            else:
+                self.append(other)
+            return self
+        raise NotImplementedError
+
+    def extend(self, mappings):
+        """Extend sequence of mappings by appending mappings from iterable."""
+        if isinstance(mappings, self.__class__):
+            mappings = mappings.maps
+        for m in mappings:
+            self.append(m)
