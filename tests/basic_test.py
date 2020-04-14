@@ -60,3 +60,7 @@ def test_delete(maps):
 
 def test_new(maps):
     assert StackMap(*maps).new() == ChainMap(*maps[::-1]).new_child()
+
+
+def test_clear(maps):
+    assert StackMap(*maps).clear() == ChainMap(*maps[::-1]).clear()
