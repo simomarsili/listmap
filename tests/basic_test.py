@@ -43,3 +43,16 @@ def test_append(maps):
     sm = StackMap(*maps[:-1])
     sm.append(maps[-1])
     assert sm == StackMap(*maps)
+
+
+def test_insert(maps):
+    n = len(maps)
+    sm = StackMap(*maps[:-1])
+    sm.insert(n, maps[-1])
+    assert sm == StackMap(*maps)
+
+
+def test_delete(maps):
+    sm = StackMap(*maps)
+    sm.delete(-1)
+    assert sm == StackMap(*maps[:-1])
