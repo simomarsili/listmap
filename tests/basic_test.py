@@ -45,21 +45,8 @@ def test_append(maps):
     assert sm == StackMap(*maps)
 
 
-def test_insert(maps):
-    n = len(maps)
-    sm = StackMap(*maps[:-1])
-    sm.insert(n, maps[-1])
-    assert sm == StackMap(*maps)
-
-
-def test_delete(maps):
-    sm = StackMap(*maps)
-    sm.delete(-1)
-    assert sm == StackMap(*maps[:-1])
-
-
-def test_new(maps):
-    assert StackMap(*maps).new() == ChainMap(*maps[::-1]).new_child()
+def test_new_child(maps):
+    assert StackMap(*maps).new_child() == ChainMap(*maps[::-1]).new_child()
 
 
 def test_clear(maps):

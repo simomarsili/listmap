@@ -2,10 +2,12 @@
 stackmap
 ========
 
-``StackMap`` is a dict-like class that creates a single view from multiple
-mappings, based on the ``ChainMap`` class from ``collections``. The underlying
-list of mappings can be accessed using the``maps`` property, and modified using
-the class methods: ``append``, ``insert``, ``delete``.
+Adapted from the ``collections.ChainMap`` class. A ``StackMap`` is a dict-like
+object that creates a single, updateable view of a stack of dicts or other
+mappings.
+
+The underlying list of mappings can be accessed and modified
+using the``maps`` property, and the ``append`` method.
 
 Main differences with ``ChainMap`` objects:
 

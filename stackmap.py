@@ -6,11 +6,11 @@ from reprlib import recursive_repr
 
 class StackMap(MutableMapping):
     """
-    Adapted from the ChainMap class. A StackMap creates a single, updateable
-    view of a stack of dicts or other mappings.
+    Adapted from the ``ChainMap`` class. A ``StackMap`` creates a single,
+    updateable view of a stack of dicts or other mappings.
 
-    The underlying list of mappings can be accessed using the``maps`` property,
-    and modified using the class methods: ``append``, ``insert``, ``delete``.
+    The underlying list of mappings can be accessed and modified
+    using the``maps`` property, and the ``append`` method.
 
     Lookups search the underlying mappings successively starting from the
     **last** mapping and going backward in the ordered mappigs until a key is
@@ -29,9 +29,6 @@ class StackMap(MutableMapping):
       list
     * The ``extend(iterable)`` method extends the mappings by appending
       mappings from `iterable`
-    * The ``insert(index, m)`` method inserts a new mapping ``m`` at index
-      ``index``
-    * The ``delete(index)`` removes the mapping at ``index`` from the mappings.
 
 
     Notes
@@ -113,15 +110,6 @@ class StackMap(MutableMapping):
         if m is None:
             m = {}
         self._maps.insert(0, m)
-
-    def insert(self, index, m):
-        """Insert a new map into `maps` before index."""
-        # insert after -index -1 (before -index)
-        self._maps.insert(-index, m)
-
-    def delete(self, index=-1):
-        """Remove the `index`-th map. Default: remove the last mapping."""
-        del self._maps[-index - 1]
 
     def new_child(self, m=None):
         """
