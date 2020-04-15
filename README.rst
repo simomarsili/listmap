@@ -11,11 +11,15 @@ using the ``maps`` property, and the ``append`` method.
 
 Main differences with ``ChainMap`` objects:
 
+* Lookups search the underlying mappings starting from the **last**
+  mapping and going backward in the list of mappings until a key is
+  found.
 * Lookups search the mappings **from right to left** (starting from the last
   mapping in the list and going backward) until a key is found
 * Updates and deletions of keys operate on the **last** mapping in the list
-* The ``append(m)`` method appends a new mapping ``m`` to the right of the
-  list
+* The ``append(m)`` method appends a new mapping ``m`` to the list
+* The ``extend(iterable)`` method extends the mappings by appending
+  mappings from `iterable`
 
 Examples
 ========

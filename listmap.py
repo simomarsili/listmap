@@ -12,21 +12,13 @@ class ListMap(MutableMapping):
     The underlying list of mappings can be accessed and modified
     using the``maps`` property, and the ``append`` method.
 
-    Lookups search the underlying mappings successively starting from the
-    **last** mapping and going backward in the ordered mappigs until a key is
-    found. Writes, updates, and deletions only operate on the **last**
-    mapping.
-
     Main differences with ``ChainMap`` objects:
 
-    * Lookups search the list **from right to left** (starting from the last
-      mapping in the list and going backward) until a key is found
+    * Lookups search the underlying mappings starting from the **last**
+      mapping and going backward in the list of mappings until a key is
+      found.
     * Updates and deletions of keys operate on the **last** mapping in the list
-
-    New methods:
-
-    * The ``append(m)`` method appends a new mapping ``m`` to the right of the
-      list
+    * The ``append(m)`` method appends a new mapping ``m`` to the list
     * The ``extend(iterable)`` method extends the mappings by appending
       mappings from `iterable`
 
