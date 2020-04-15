@@ -7,7 +7,7 @@ from collections import ChainMap
 
 import pytest
 
-from stackmap import StackMap
+from listmap import ListMap
 
 
 @pytest.fixture
@@ -32,52 +32,52 @@ def maps():
 
 
 def test_init(maps):
-    assert StackMap(*maps) == ChainMap(*maps[::-1])
+    assert ListMap(*maps) == ChainMap(*maps[::-1])
 
 
 def test_maps(maps):
-    assert StackMap(*maps).maps == tuple(ChainMap(*maps[::-1]).maps[::-1])
+    assert ListMap(*maps).maps == tuple(ChainMap(*maps[::-1]).maps[::-1])
 
 
 def test_append(maps):
-    sm = StackMap(*maps[:-1])
+    sm = ListMap(*maps[:-1])
     sm.append(maps[-1])
-    assert sm == StackMap(*maps)
+    assert sm == ListMap(*maps)
 
 
 def test_new_child(maps):
-    assert StackMap(*maps).new_child() == ChainMap(*maps[::-1]).new_child()
+    assert ListMap(*maps).new_child() == ChainMap(*maps[::-1]).new_child()
 
 
 def test_clear(maps):
-    assert StackMap(*maps).clear() == ChainMap(*maps[::-1]).clear()
+    assert ListMap(*maps).clear() == ChainMap(*maps[::-1]).clear()
 
 
 def test_extend(maps):
-    sm = StackMap(*maps)
+    sm = ListMap(*maps)
     sm.extend(maps)
-    assert sm == StackMap(*maps, *maps)
+    assert sm == ListMap(*maps, *maps)
 
 
 def test_add_map(maps):
     m = {1: 100}
-    sm = StackMap(*maps)
-    assert sm + m == StackMap(*maps, m)
+    sm = ListMap(*maps)
+    assert sm + m == ListMap(*maps, m)
 
 
 def test_add_stackmap(maps):
-    sm = StackMap(*maps)
-    assert sm + StackMap(*maps) == StackMap(*maps, *maps)
+    sm = ListMap(*maps)
+    assert sm + ListMap(*maps) == ListMap(*maps, *maps)
 
 
 def test_iadd_map(maps):
     m = {1: 100}
-    sm = StackMap(*maps)
+    sm = ListMap(*maps)
     sm += m
-    assert sm == StackMap(*maps, m)
+    assert sm == ListMap(*maps, m)
 
 
 def test_iadd_stackmap(maps):
-    sm = StackMap(*maps)
-    sm += StackMap(*maps)
-    assert sm == StackMap(*maps, *maps)
+    sm = ListMap(*maps)
+    sm += ListMap(*maps)
+    assert sm == ListMap(*maps, *maps)

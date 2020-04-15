@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""StackMap class."""
+"""ListMap class."""
 from collections.abc import Mapping, MutableMapping
 from reprlib import recursive_repr
 
 
-class StackMap(MutableMapping):
+class ListMap(MutableMapping):
     """
-    Adapted from the ``ChainMap`` class. A ``StackMap`` creates a single,
+    Adapted from the ``ChainMap`` class. A ``ListMap`` creates a single,
     updateable view of a stack of dicts or other mappings.
 
     The underlying list of mappings can be accessed and modified
@@ -40,7 +40,7 @@ class StackMap(MutableMapping):
     """
     def __init__(self, *maps):
         """
-        Initialize a StackMap by setting *_maps* to the given mappings
+        Initialize a ListMap by setting *_maps* to the given mappings
         in reversed order. If no mappings are provided,
         a single empty dictionary is used.
         """
@@ -89,12 +89,12 @@ class StackMap(MutableMapping):
 
     @classmethod
     def fromkeys(cls, iterable, *args):
-        'Create a StackMap with a single dict created from the iterable.'
+        'Create a ListMap with a single dict created from the iterable.'
         return cls(dict.fromkeys(iterable, *args))
 
     def copy(self):
         """
-        New StackMap or subclass with a new copy of maps[-1] and
+        New ListMap or subclass with a new copy of maps[-1] and
         refs to maps[:-1]
         """
         return self.__class__(*self.maps[:-1], self.maps[-1].copy())
@@ -113,7 +113,7 @@ class StackMap(MutableMapping):
 
     def new_child(self, m=None):
         """
-        New StackMap with a new map appended to the previous maps.
+        New ListMap with a new map appended to the previous maps.
         If no map is provided, an empty dict is used.
         Like ChainSave new_child() and Django's Context.push()
         """
@@ -123,7 +123,7 @@ class StackMap(MutableMapping):
 
     @property
     def parents(self):  # like Django's Context.pop()
-        'New StackMap from maps[:-1].'
+        'New ListMap from maps[:-1].'
         return self.__class__(*self.maps[:-1])
 
     def __setitem__(self, key, value):
@@ -166,7 +166,7 @@ class StackMap(MutableMapping):
 
     def __or__(self, other):
         # update last mapping with other
-        # return new StackMap object
+        # return new ListMap object
         if isinstance(other, Mapping):
             m = self._maps[0].copy()
             m.update(other)

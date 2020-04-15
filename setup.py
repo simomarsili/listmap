@@ -6,9 +6,9 @@ from os import path
 
 from setuptools import setup
 
-DISTNAME = 'stackmap'
+DISTNAME = 'listmap'
 VERSION_FILE = 'version.json'
-MODULES = ['stackmap']
+MODULES = ['listmap']
 SETUP_REQUIRES = []
 INSTALL_REQUIRES = []
 EXTRAS_REQUIRES = {'test': ['pytest']}

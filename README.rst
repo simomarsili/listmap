@@ -1,8 +1,8 @@
-========
-stackmap
-========
+=======
+listmap
+=======
 
-Adapted from the ``collections.ChainMap`` class. A ``StackMap`` is a dict-like
+Adapted from the ``collections.ChainMap`` class. A ``ListMap`` is a dict-like
 object that creates a single, updateable view of a stack of dicts or other
 mappings.
 
@@ -31,10 +31,10 @@ show the differences.
    >>> list(ChainMap(adjustments, baseline))
    ['music', 'art', 'opera']
 
-   >>> list(StackMap(baseline, adjustments))
+   >>> list(ListMap(baseline, adjustments))
    ['music', 'art', 'opera']
 
-The iteration order of a ``StackMap`` is the same ordering as a series of
+The iteration order of a ``ListMap`` is the same ordering as a series of
 ``dict.update()`` calls starting from the **first** mapping in the list::
 
   >>> combined = baseline.copy()
@@ -47,7 +47,7 @@ The iteration order of a ``StackMap`` is the same ordering as a series of
 Contributing
 ============
 
-This is an OPEN Source Project so please help out by `reporting bugs <https://github.com/simomarsili/stackmap>`_ or forking and opening pull requests when possible.
+This is an OPEN Source Project so please help out by `reporting bugs <https://github.com/simomarsili/listmap>`_ or forking and opening pull requests when possible.
 
 License
 =======
