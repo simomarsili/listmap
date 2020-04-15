@@ -6,8 +6,8 @@ from reprlib import recursive_repr
 
 class StackMap(MutableMapping):
     """
-    Adapted from the ChainMap class. As a ChainMap, a StackMap groups multiple
-    dicts (or other mappings) together to create a single, updateable view.
+    Adapted from the ChainMap class. A StackMap creates a single, updateable
+    view of a stack of dicts or other mappings.
 
     The underlying list of mappings can be accessed using the``maps`` property,
     and modified using the class methods: ``append``, ``insert``, ``delete``.
@@ -22,19 +22,22 @@ class StackMap(MutableMapping):
     * Lookups search the list **from right to left** (starting from the last
       mapping in the list and going backward) until a key is found
     * Updates and deletions of keys operate on the **last** mapping in the list
-    * The ``new_child(m)`` method is replaced by the ``new(m)`` method that
-      appends a new mapping ``m`` to the **right** of the list of mappings and
-      returns a new ``StackMap`` object
+
+    New methods:
+
     * The ``append(m)`` method appends a new mapping ``m`` to the right of the
       list
-
-    Minor differences:
+    * The ``extend(iterable)`` method extends the mappings by appending
+      mappings from `iterable`
     * The ``insert(index, m)`` method inserts a new mapping ``m`` at index
       ``index``
     * The ``delete(index)`` removes the mapping at ``index`` from the mappings.
 
+
     Notes
     -----
+    ChainMap code:
+
     https://github.com/python/cpython/blob/3.8/Lib/collections/__init__.py
 
     """
@@ -120,18 +123,14 @@ class StackMap(MutableMapping):
         """Remove the `index`-th map. Default: remove the last mapping."""
         del self._maps[-index - 1]
 
-    def new(self, m=None, left=False):
+    def new_child(self, m=None):
         """
         New StackMap with a new map appended to the previous maps.
         If no map is provided, an empty dict is used.
         Like ChainSave new_child() and Django's Context.push()
-        If left, append a new map as the first mapping, to the left side of the
-        `maps` list.
         """
         if m is None:
             m = {}
-        if left:
-            return self.__class__(m, *self.maps)
         return self.__class__(*self.maps, m)
 
     @property

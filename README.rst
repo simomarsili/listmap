@@ -12,9 +12,6 @@ Main differences with ``ChainMap`` objects:
 * Lookups search the mappings **from right to left** (starting from the last
   mapping in the list and going backward) until a key is found
 * Updates and deletions of keys operate on the **last** mapping in the list
-* The ``new_child(m)`` method is replaced by the ``new(m)`` method that
-  appends a new mapping ``m`` to the **right** of the list of mappings and
-  returns a new ``StackMap`` object
 * The ``append(m)`` method appends a new mapping ``m`` to the right of the
   list
 
