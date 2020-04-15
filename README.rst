@@ -3,11 +3,11 @@ listmap
 =======
 
 Adapted from the ``collections.ChainMap`` class. A ``ListMap`` is a dict-like
-object that creates a single, updateable view of a stack of dicts or other
+object that creates a single, updateable view of a list of dicts or other
 mappings.
 
 The underlying list of mappings can be accessed and modified
-using the``maps`` property, and the ``append`` method.
+using the ``maps`` property, and the ``append`` method.
 
 Main differences with ``ChainMap`` objects:
 
