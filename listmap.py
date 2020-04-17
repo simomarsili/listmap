@@ -36,6 +36,8 @@ class ListMap(MutableMapping):
         in reversed order. If no mappings are provided,
         a single empty dictionary is used.
         """
+        # TODO: optional class check and set default e.g. MyDict
+        # ListMap(a, b, cls=MyDict)
         self._maps = list(reversed(maps)) or [{}]  # always at least one map
 
     @property
