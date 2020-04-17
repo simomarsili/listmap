@@ -4,6 +4,7 @@
 """Tests module."""
 
 from collections import ChainMap
+from types import MappingProxyType
 
 import pytest
 
@@ -80,4 +81,20 @@ def test_iadd_map(maps):
 def test_iadd_stackmap(maps):
     sm = ListMap(*maps)
     sm += ListMap(*maps)
+    assert sm == ListMap(*maps, *maps)
+
+
+def test_init_cls(maps):
+    assert ListMap(*maps, cls=MappingProxyType) == ChainMap(*maps[::-1])
+
+
+def test_append_cls(maps):
+    sm = ListMap(*maps[:-1], cls=MappingProxyType)
+    sm.append(maps[-1])
+    assert sm == ListMap(*maps)
+
+
+def test_extend_cls(maps):
+    sm = ListMap(*maps, cls=MappingProxyType)
+    sm.extend(maps)
     assert sm == ListMap(*maps, *maps)
