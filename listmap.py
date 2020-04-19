@@ -22,6 +22,12 @@ class ListMap(MutableMapping):
     * The ``extend(iterable)`` method extends the mappings by appending
       mappings from `iterable`
 
+    Parameters
+    ----------
+
+    *maps : Mapping objects
+    mapper : callable or None
+        Apply the callable ``mapper`` to each of the original mappings.
 
     Notes
     -----
