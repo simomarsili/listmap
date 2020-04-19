@@ -84,17 +84,17 @@ def test_iadd_stackmap(maps):
     assert sm == ListMap(*maps, *maps)
 
 
-def test_init_cls(maps):
-    assert ListMap(*maps, cls=MappingProxyType) == ChainMap(*maps[::-1])
+def test_init_mapper(maps):
+    assert ListMap(*maps, mapper=MappingProxyType) == ChainMap(*maps[::-1])
 
 
-def test_append_cls(maps):
-    sm = ListMap(*maps[:-1], cls=MappingProxyType)
+def test_append_mapper(maps):
+    sm = ListMap(*maps[:-1], mapper=MappingProxyType)
     sm.append(maps[-1])
     assert sm == ListMap(*maps)
 
 
-def test_extend_cls(maps):
-    sm = ListMap(*maps, cls=MappingProxyType)
+def test_extend_mapper(maps):
+    sm = ListMap(*maps, mapper=MappingProxyType)
     sm.extend(maps)
     assert sm == ListMap(*maps, *maps)

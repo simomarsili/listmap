@@ -30,19 +30,20 @@ class ListMap(MutableMapping):
     https://github.com/python/cpython/blob/3.8/Lib/collections/__init__.py
 
     """
-    def __init__(self, *maps, cls=None):
+    def __init__(self, *maps, mapper=None):
         """
         Initialize a ListMap by setting *_maps* to the given mappings
         in reversed order. If no mappings are provided,
         a single empty dictionary is used.
         """
-        # TODO: optional class check and set default e.g. MyDict
-        # ListMap(a, b, cls=MyDict)
-        self.cls = cls
-        if cls is None:
+        # TODO: func a generic callable
+        # TODO: document `mapper` optional kwarg
+        self.mapper = mapper
+        if mapper is None:
             self._maps = list(reversed(maps)) or [{}]  # at least one map
         else:
-            self._maps = list(reversed([cls(m) for m in maps])) or [cls()]
+            self._maps = list(reversed([mapper(m)
+                                        for m in maps])) or [mapper()]
 
     @property
     def maps(self):
@@ -107,8 +108,8 @@ class ListMap(MutableMapping):
         """
         if m is None:
             m = {}
-        if self.cls is not None:
-            m = self.cls(m)
+        if self.mapper is not None:
+            m = self.mapper(m)
         self._maps.insert(0, m)
 
     def new_child(self, m=None):
@@ -119,8 +120,8 @@ class ListMap(MutableMapping):
         """
         if m is None:
             m = {}
-        if self.cls is not None:
-            m = self.cls(m)
+        if self.mapper is not None:
+            m = self.mapper(m)
         return self.__class__(*self.maps, m)
 
     @property
@@ -189,8 +190,8 @@ class ListMap(MutableMapping):
         if isinstance(other, Mapping):
             if isinstance(other, self.__class__):
                 return self.__class__(*self.maps, *other.maps)
-            if self.cls is not None:
-                other = self.cls(other)
+            if self.mapper is not None:
+                other = self.mapper(other)
             return self.__class__(*self.maps, other)
         return NotImplemented
 
@@ -208,6 +209,6 @@ class ListMap(MutableMapping):
         if isinstance(mappings, self.__class__):
             mappings = mappings.maps
         for m in mappings:
-            if self.cls is not None:
-                m = self.cls(m)
+            if self.mapper is not None:
+                m = self.mapper(m)
             self.append(m)
